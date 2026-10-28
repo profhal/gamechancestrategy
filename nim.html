@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nim | Games, Chance, and Strategy</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f4ef; color: #202b35; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 1.25rem; }
+    main { max-width: 800px; margin: 0 auto; }
+    h1 { margin: 0 0 .3rem; font-size: clamp(1.8rem, 4vw, 2.6rem); }
+    .subtitle { margin: 0 0 1.25rem; color: #50606b; }
+    .panel { background: white; border: 1px solid #d9deda; border-radius: 14px; padding: 1.15rem; margin: 1rem 0; }
+    .settings { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; }
+    label { display: block; font-weight: 650; margin-bottom: .35rem; }
+    select, input, button { font: inherit; }
+    select, input { padding: .65rem; border: 1px solid #8d9da4; border-radius: 8px; background: white; }
+    input[type="number"] { width: 7rem; }
+    button { padding: .75rem 1.05rem; border-radius: 9px; border: 1px solid #254c64; background: #245773; color: white; font-weight: 650; cursor: pointer; }
+    button:hover:not(:disabled) { background: #173f55; }
+    button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #d59b27; outline-offset: 3px; }
+    button:disabled { opacity: .48; cursor: not-allowed; }
+    .status { font-size: 1.2rem; font-weight: 700; margin: .2rem 0 .5rem; }
+    .count { color: #4a5a65; margin: 0 0 1rem; }
+    .sticks { min-height: 125px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 7px; padding: 1rem .5rem; background: #eef2ef; border-radius: 10px; }
+    .stick { width: 9px; height: 76px; border-radius: 5px; background: linear-gradient(90deg,#a96830,#dfaa67 50%,#9e5e2c); box-shadow: 1px 2px 2px #0002; }
+    .actions { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1rem; }
+    .actions button { min-width: 6.3rem; }
+    .history { margin: .5rem 0 0; padding-left: 1.5rem; max-height: 200px; overflow: auto; }
+    .history li { margin: .35rem 0; }
+    .note { color: #53616b; font-size: .94rem; }
+    @media (prefers-reduced-motion: no-preference) { .stick { animation: appear .15s ease-out; } @keyframes appear { from { opacity: .4; transform: translateY(-5px); } } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Nim</h1>
+    <p class="subtitle">Games, Chance, and Strategy · An experiment in taking turns</p>
+  </header>
+  <section class="panel" aria-labelledby="rules-heading">
+    <h2 id="rules-heading">Rules</h2>
+    <p>Players take turns removing <strong>1, 2, or 3 sticks</strong> from a single pile. The player who takes the <strong>last stick wins</strong>.</p>
+  </section>
+  <section class="panel" aria-labelledby="setup-heading">
+    <h2 id="setup-heading">New game</h2>
+    <div class="settings">
+      <div><label for="initial">Starting sticks</label><input id="initial" type="number" min="1" max="100" value="21" inputmode="numeric"></div>
+      <div><label for="starter">First player</label><select id="starter"><option value="human">You</option><option value="computer">Computer</option></select></div>
+      <button id="restart" type="button">Start new game</button>
+    </div>
+    <p class="note">Choose 1–100 sticks. Changing the settings doesn't affect the current game until you start a new one.</p>
+  </section>
+  <section class="panel" aria-labelledby="play-heading">
+    <h2 id="play-heading">Play</h2>
+    <p class="status" id="status" role="status" aria-live="polite">Your turn.</p>
+    <p class="count" id="count">21 sticks remain.</p>
+    <div class="sticks" id="sticks" role="img" aria-label="21 sticks remaining"></div>
+    <div class="actions" aria-label="Choose how many sticks to take">
+      <button type="button" data-take="1">Take 1</button>
+      <button type="button" data-take="2">Take 2</button>
+      <button type="button" data-take="3">Take 3</button>
+    </div>
+  </section>
+  <section class="panel" aria-labelledby="history-heading">
+    <h2 id="history-heading">Move history</h2>
+    <ol class="history" id="history" aria-live="polite"></ol>
+    <p class="note">The computer follows a simple naive strategy: if 1–3 sticks remain, take them all; otherwise choose 1, 2, or 3 uniformly at random (like rolling a four-sided die and rerolling a 4).</p>
+  </section>
+</main>
+<script>
+  'use strict';
+  const initialInput = document.getElementById('initial');
+  const starterSelect = document.getElementById('starter');
+  const statusEl = document.getElementById('status');
+  const countEl = document.getElementById('count');
+  const sticksEl = document.getElementById('sticks');
+  const historyEl = document.getElementById('history');
+  const takeButtons = [...document.querySelectorAll('[data-take]')];
+  let remaining = 21;
+  let turn = 'human';
+  let finished = false;
+  let pendingComputer = null;
+  let gameNumber = 0;
+
+  function render() {
+    countEl.textContent = `${remaining} ${remaining === 1 ? 'stick' : 'sticks'} remain.`;
+    sticksEl.setAttribute('aria-label', `${remaining} sticks remaining`);
+    sticksEl.replaceChildren();
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < remaining; i++) {
+      const stick = document.createElement('span');
+      stick.className = 'stick';
+      stick.setAttribute('aria-hidden', 'true');
+      fragment.appendChild(stick);
+    }
+    sticksEl.appendChild(fragment);
+    for (const button of takeButtons) {
+      button.disabled = finished || turn !== 'human' || Number(button.dataset.take) > remaining;
+    }
+  }
+
+  function addHistory(message) {
+    const item = document.createElement('li');
+    item.textContent = message;
+    historyEl.appendChild(item);
+  }
+
+  function take(player, amount, explanation = '') {
+    if (finished || player !== turn || !Number.isInteger(amount) || amount < 1 || amount > 3 || amount > remaining) return;
+    remaining -= amount;
+    addHistory(`${player === 'human' ? 'You' : 'Computer'} took ${amount}${explanation ? ` (${explanation})` : ''}. ${remaining} remaining.`);
+    if (remaining === 0) {
+      finished = true;
+      statusEl.textContent = player === 'human' ? 'You win!' : 'Computer wins!';
+    } else {
+      turn = player === 'human' ? 'computer' : 'human';
+      statusEl.textContent = turn === 'human' ? 'Your turn.' : 'Computer is choosing…';
+    }
+    render();
+    if (!finished && turn === 'computer') scheduleComputer();
+  }
+
+  function scheduleComputer() {
+    const currentGame = gameNumber;
+    pendingComputer = window.setTimeout(() => {
+      pendingComputer = null;
+      if (currentGame !== gameNumber || finished || turn !== 'computer') return;
+      if (remaining <= 3) {
+        take('computer', remaining, 'takes the remaining sticks');
+      } else {
+        const amount = Math.floor(Math.random() * 3) + 1;
+        take('computer', amount, `random choice: ${amount}`);
+      }
+    }, 550);
+  }
+
+  function newGame() {
+    const requested = Number(initialInput.value);
+    if (!Number.isInteger(requested) || requested < 1 || requested > 100) {
+      statusEl.textContent = 'Enter a whole number from 1 to 100 to start a game.';
+      initialInput.focus();
+      return;
+    }
+    gameNumber++;
+    if (pendingComputer !== null) window.clearTimeout(pendingComputer);
+    pendingComputer = null;
+    remaining = requested;
+    turn = starterSelect.value;
+    finished = false;
+    historyEl.replaceChildren();
+    statusEl.textContent = turn === 'human' ? 'Your turn.' : 'Computer is choosing…';
+    render();
+    if (turn === 'computer') scheduleComputer();
+  }
+
+  for (const button of takeButtons) button.addEventListener('click', () => take('human', Number(button.dataset.take)));
+  document.getElementById('restart').addEventListener('click', newGame);
+  newGame();
+</script>
+</body>
+</html>
