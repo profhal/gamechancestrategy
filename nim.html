@@ -48,6 +48,7 @@
     <div class="settings">
       <div><label for="initial">Starting sticks</label><input id="initial" type="number" min="1" max="100" value="21" inputmode="numeric"></div>
       <div><label for="starter">First player</label><select id="starter"><option value="human">You</option><option value="computer">Computer</option></select></div>
+      <div><label for="level">Computer opponent</label><select id="level"><option value="naive">Naive</option><option value="enthusiast">Enthusiast</option><option value="expert">Expert</option></select></div>
       <button id="restart" type="button">Start new game</button>
     </div>
     <p class="note">Choose 1–100 sticks. Changing the settings doesn't affect the current game until you start a new one.</p>
@@ -66,13 +67,14 @@
   <section class="panel" aria-labelledby="history-heading">
     <h2 id="history-heading">Move history</h2>
     <ol class="history" id="history" aria-live="polite"></ol>
-    <p class="note">The computer follows a simple naive strategy: if 1–3 sticks remain, take them all; otherwise choose 1, 2, or 3 uniformly at random (like rolling a four-sided die and rerolling a 4).</p>
+    <p class="note">Watch the computer’s moves. Can you figure out how the three opponents differ? The computer’s strategy is not revealed during play.</p>
   </section>
 </main>
 <script>
   'use strict';
   const initialInput = document.getElementById('initial');
   const starterSelect = document.getElementById('starter');
+  const levelSelect = document.getElementById('level');
   const statusEl = document.getElementById('status');
   const countEl = document.getElementById('count');
   const sticksEl = document.getElementById('sticks');
@@ -83,6 +85,7 @@
   let finished = false;
   let pendingComputer = null;
   let gameNumber = 0;
+  let activeLevel = 'naive';
 
   function render() {
     countEl.textContent = `${remaining} ${remaining === 1 ? 'stick' : 'sticks'} remain.`;
@@ -122,17 +125,28 @@
     if (!finished && turn === 'computer') scheduleComputer();
   }
 
+  // The names are intentionally non-descriptive: students investigate the strategies.
+  function computerMove(n, level) {
+    if (n <= 3) return n;
+    if (level === 'enthusiast') {
+      // M2: even -> 2; odd -> 1 or 3, uniformly at random.
+      return n % 2 === 0 ? 2 : (Math.random() < 0.5 ? 1 : 3);
+    }
+    if (level === 'expert') {
+      // M4: leave a multiple of four when possible; otherwise random.
+      return n % 4 === 0 ? Math.floor(Math.random() * 3) + 1 : n % 4;
+    }
+    // Naive: uniformly random legal take (after immediate-win check above).
+    return Math.floor(Math.random() * 3) + 1;
+  }
+
   function scheduleComputer() {
     const currentGame = gameNumber;
     pendingComputer = window.setTimeout(() => {
       pendingComputer = null;
       if (currentGame !== gameNumber || finished || turn !== 'computer') return;
-      if (remaining <= 3) {
-        take('computer', remaining, 'takes the remaining sticks');
-      } else {
-        const amount = Math.floor(Math.random() * 3) + 1;
-        take('computer', amount, `random choice: ${amount}`);
-      }
+      const amount = computerMove(remaining, activeLevel);
+      take('computer', amount);
     }, 550);
   }
 
@@ -147,6 +161,7 @@
     if (pendingComputer !== null) window.clearTimeout(pendingComputer);
     pendingComputer = null;
     remaining = requested;
+    activeLevel = levelSelect.value;
     turn = starterSelect.value;
     finished = false;
     historyEl.replaceChildren();
