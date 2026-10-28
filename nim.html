@@ -46,7 +46,9 @@ nav a:hover,
 nav a:focus-visible {
     text-decoration: underline;
 }
-    @media (prefers-reduced-motion: no-preference) { .stick { animation: appear .15s ease-out; } @keyframes appear { from { opacity: .4; transform: translateY(-5px); } } }
+    footer { margin: 2.25rem 0 1rem; color: #53616b; font-size: .9rem; }
+
+@media (prefers-reduced-motion: no-preference) { .stick { animation: appear .15s ease-out; } @keyframes appear { from { opacity: .4; transform: translateY(-5px); } } }
   </style>
 </head>
 <body>
@@ -90,6 +92,9 @@ nav a:focus-visible {
     <p class="note">Watch the computer’s moves. Can you figure out how the three opponents differ? The computer’s strategy is not revealed during play.</p>
   </section>
 </main>
+<footer>
+    <p>&copy; 2026 Hal Smith · Games, Chance, and Strategy</p>
+</footer>
 <script>
   'use strict';
   const initialInput = document.getElementById('initial');

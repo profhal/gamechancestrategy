@@ -23,6 +23,7 @@ nav a:hover,
 nav a:focus-visible {
     text-decoration: underline;
 }
+    footer { margin: 2.25rem 0 1rem; color: #53616b; font-size: .9rem; }
 </style>
 </head>
 <body>
@@ -84,5 +85,8 @@ squares.forEach(sq=>sq.addEventListener('click',()=>{if(!over&&turn===human)play
 document.getElementById('newGame').addEventListener('click',start);level.addEventListener('change',start);first.addEventListener('change',start);start();
 })();
 </script>
+<footer>
+    <p>&copy; 2026 Hal Smith · Games, Chance, and Strategy</p>
+</footer>
 </body>
 </html>
