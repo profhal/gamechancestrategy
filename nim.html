@@ -29,13 +29,33 @@
     .actions button { min-width: 6.3rem; }
     .history { margin: .5rem 0 0; padding-left: 1.5rem; max-height: 200px; overflow: auto; }
     .history li { margin: .35rem 0; }
+    .eyebrow{font-size:1.0rem;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:#2468a6}
     .note { color: #53616b; font-size: .94rem; }
+    nav {
+    margin-top: 12px;
+    margin-bottom: 1rem;
+}
+
+nav a {
+    color: inherit;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+nav a:hover,
+nav a:focus-visible {
+    text-decoration: underline;
+}
     @media (prefers-reduced-motion: no-preference) { .stick { animation: appear .15s ease-out; } @keyframes appear { from { opacity: .4; transform: translateY(-5px); } } }
   </style>
 </head>
 <body>
 <main>
   <header>
+    <div class="eyebrow">Games, Chance, and Strategy · Interactive Laboratory</div>
+    <nav aria-label="Game navigation">
+        <a href="index.html">← Back to The Arcade</a>
+    </nav>
     <h1>Nim</h1>
     <p class="subtitle">Games, Chance, and Strategy · An experiment in taking turns</p>
   </header>
