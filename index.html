@@ -1,19 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1">
-    <title>GAMESTRAT</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore games, chance, and strategy. Play against computer opponents, observe their decisions, and investigate how different strategies work.">
+  <title>The Arcade | Games, Chance, and Strategy</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f4ef; color: #202b35; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 1.25rem; }
+    main { max-width: 900px; margin: 0 auto; }
+    .eyebrow { margin: 0 0 .75rem; color: #24649b; font-size: 1rem; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; line-height: 1.5; }
+    h1 { margin: 0 0 .45rem; font-size: clamp(2.1rem, 5vw, 3.25rem); line-height: 1.12; }
+    h2 { margin: 0 0 .65rem; font-size: 1.4rem; }
+    h3 { margin: 0 0 .45rem; font-size: 1.25rem; }
+    p { line-height: 1.65; }
+    .subtitle { margin: 0; color: #50606b; font-size: 1.15rem; max-width: 43rem; }
+    header { padding: 1.15rem 0 1.35rem; }
+    .panel { background: #fff; border: 1px solid #d9deda; border-radius: 14px; padding: clamp(1.15rem, 3vw, 1.65rem); margin: 1rem 0; }
+    .intro p:last-child, .panel p:last-child { margin-bottom: 0; }
+    .section-heading { margin: 2.2rem 0 .4rem; }
+    .section-intro { margin: 0 0 1.1rem; color: #50606b; }
+    .games { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr)); gap: 1rem; }
+    .game { display: flex; flex-direction: column; margin: 0; }
+    .game p { margin: .2rem 0 1.15rem; }
+    .game .tags { margin: 0 0 .8rem; font-size: .85rem; font-weight: 700; color: #516773; letter-spacing: .035em; }
+    .game .play { display: inline-block; align-self: flex-start; margin-top: auto; padding: .72rem 1rem; background: #245773; color: white; border: 1px solid #254c64; border-radius: 9px; text-decoration: none; font-weight: 650; }
+    .game .play:hover { background: #173f55; }
+    a:focus-visible { outline: 3px solid #d59b27; outline-offset: 4px; }
+    .steps { margin: .75rem 0 0; padding-left: 1.4rem; }
+    .steps li { padding-left: .25rem; margin: .55rem 0; line-height: 1.55; }
+    footer { margin: 2.25rem 0 1rem; color: #53616b; font-size: .9rem; }
+    @media (max-width: 520px) { body { padding: 1rem; } .eyebrow { letter-spacing: .08em; } }
+  </style>
 </head>
 <body>
-    <h1>Games, Chance, and Strategy: The Arcade</h1>
-    <p>Welcome to arcade for Games, Chance, and Strategy!</p>
-    <p>Available games:</p>
-    <ul>
-        <li><a href="nim.html">Nim</a></li>
-        <li><a href="tictactoe.html">Tic-Tac-Toe</a></li>
-        <li><a href="mancala.html">Mancala</a></li>
-    </ul>
+<main>
+  <header>
+    <p class="eyebrow">Games, Chance, and Strategy · Interactive Laboratory</p>
+    <h1>The Arcade</h1>
+    <p class="subtitle">A place to play, experiment, and discover what makes a strategy work.</p>
+  </header>
+
+  <section class="panel intro" aria-labelledby="welcome-heading">
+    <h2 id="welcome-heading">More than winning</h2>
+    <p>Every game involves decisions. Some are obvious, some depend on chance, and some only make sense after you've played a few rounds. In this arcade, you'll face computer opponents that make decisions according to different strategies.</p>
+    <p><strong>Here's the catch:</strong> the opponents won't tell you how they think. Your job is to play, pay attention, look for patterns, and develop explanations that you can test.</p>
+    <p>You don't need to know how to program. You do need curiosity, a willingness to experiment, and a healthy suspicion of your first guess.</p>
+  </section>
+
+  <section aria-labelledby="games-heading">
+    <h2 id="games-heading" class="section-heading">Choose a game</h2>
+    <p class="section-intro">Each game opens in its own page. Try different opponents and see what changes.</p>
+    <div class="games">
+      <article class="panel game" aria-labelledby="nim-heading">
+        <p class="tags">TAKING TURNS · PATTERNS</p>
+        <h3 id="nim-heading">Nim</h3>
+        <p>Take one, two, or three sticks. Whoever takes the last one wins. Simple rules can lead to surprisingly powerful strategies.</p>
+        <a class="play" href="nim.html" aria-label="Play Nim">Play Nim →</a>
+      </article>
+      <article class="panel game" aria-labelledby="ttt-heading">
+        <p class="tags">CHOICES · ANTICIPATION</p>
+        <h3 id="ttt-heading">Tic-Tac-Toe</h3>
+        <p>Three in a row wins—but there's more to investigate than the final result. Watch what the computer notices, and what it misses.</p>
+        <a class="play" href="tictactoe.html" aria-label="Play Tic-Tac-Toe">Play Tic-Tac-Toe →</a>
+      </article>
+      <article class="panel game" aria-labelledby="mancala-heading">
+        <p class="tags">TRADEOFFS · PLANNING</p>
+        <h3 id="mancala-heading">Mancala</h3>
+        <p>Move stones, earn extra turns, and capture your opponent's pieces. Which opportunities are worth pursuing—and when?</p>
+        <a class="play" href="mancala.html" aria-label="Play Mancala">Play Mancala →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="investigate-heading">
+    <h2 id="investigate-heading">Play like an investigator</h2>
+    <ol class="steps">
+      <li><strong>Observe.</strong> What does the computer do in different situations?</li>
+      <li><strong>Hypothesize.</strong> What rule might explain those choices?</li>
+      <li><strong>Experiment.</strong> Change the starting conditions or your own moves. Does your explanation still hold?</li>
+      <li><strong>Reflect.</strong> When does a strategy succeed? When does it fail? What evidence supports your conclusion?</li>
+    </ol>
+    <p>Winning is fun. Understanding <em>why</em> is the real challenge.</p>
+  </section>
+
+  <footer>
+    Games, Chance, and Strategy · Interactive Laboratory
+  </footer>
+</main>
 </body>
 </html>
