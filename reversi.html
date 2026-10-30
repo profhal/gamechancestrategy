@@ -269,22 +269,11 @@
             <p class="status" id="status" role="status" aria-live="polite">Your turn.</p>
             <div class="score"><span id="black-score">Black: 2</span><span id="white-score">White: 2</span><span
                     id="player-color">You: black</span></div>
-            <div id="board" class="board" role="group" aria-label="Reversi board, rows 1 to 8 and columns A to H"></div>
-            <div class="actions"><button id="show-setup" type="button">Set up a position</button><button id="standard"
-                    type="button" class="hidden">Use standard position</button></div>
-            <p class="note" id="board-note">Highlighted squares are legal moves. The most recent move has a gold border.
-            </p>
-        </section>
         <section class="panel hidden" id="editor-panel" aria-labelledby="editor-heading">
-            <h2 id="editor-heading">Custom starting position</h2>
-            <p class="note">Choose a disc type, then click squares to edit the position. The editor accepts any
+            <h3 id="editor-heading">Custom starting position</h3>
+            <p class="note">Click a square repeatedly to cycle through empty, black, and white. The editor accepts any
                 arrangement with at least one disc; it does not verify that a position could arise from legal play.</p>
             <div class="settings">
-                <div><label for="paint">Place on click</label><select id="paint">
-                        <option value="1">Black disc</option>
-                        <option value="-1">White disc</option>
-                        <option value="0">Empty square</option>
-                    </select></div>
                 <div><label for="next-turn">Next to move</label><select id="next-turn">
                         <option value="human">You</option>
                         <option value="computer">Computer</option>
@@ -292,6 +281,12 @@
                     id="cancel-editor" type="button">Cancel editing</button>
             </div>
             <p class="note" id="editor-message" role="status" aria-live="polite"></p>
+        </section>
+            <div id="board" class="board" role="group" aria-label="Reversi board, rows 1 to 8 and columns A to H"></div>
+            <div class="actions"><button id="show-setup" type="button">Set up a position</button><button id="standard"
+                    type="button" class="hidden">Use standard position</button></div>
+            <p class="note" id="board-note">Highlighted squares are legal moves. The most recent move has a gold border.
+            </p>
         </section>
         <section class="panel" aria-labelledby="history-heading">
             <h2 id="history-heading">Move history</h2>
@@ -307,7 +302,7 @@
         const $ = id => document.getElementById(id);
         const dirs = [-1, 0, 1].flatMap(dr => [-1, 0, 1].filter(dc => dr || dc).map(dc => [dr, dc]));
         const index = (r, c) => r * 8 + c, inside = (r, c) => r >= 0 && r < 8 && c >= 0 && c < 8;
-        let board = [], turn = 1, human = 1, finished = false, editing = false, paint = 1, lastMove = -1, activeLevel = 'random', gameNumber = 0, pending = null;
+        let board = [], turn = 1, human = 1, finished = false, editing = false, lastMove = -1, activeLevel = 'random', gameNumber = 0, pending = null;
         function fresh() { const b = Array(64).fill(0); b[index(3, 3)] = -1; b[index(4, 4)] = -1; b[index(3, 4)] = 1; b[index(4, 3)] = 1; return b; }
         function flips(b, pos, color) { if (b[pos] !== 0) return []; const r = Math.floor(pos / 8), c = pos % 8, all = []; for (const [dr, dc] of dirs) { let rr = r + dr, cc = c + dc, run = []; while (inside(rr, cc) && b[index(rr, cc)] === -color) { run.push(index(rr, cc)); rr += dr; cc += dc; } if (run.length && inside(rr, cc) && b[index(rr, cc)] === color) all.push(...run); } return all; }
         function legal(b, color) { const out = []; for (let p = 0; p < 64; p++)if (b[p] === 0 && flips(b, p, color).length) out.push(p); return out; }
@@ -325,15 +320,14 @@
         function labelPos(p) { return String.fromCharCode(65 + p % 8) + (Math.floor(p / 8) + 1) }
         function history(message) { const li = document.createElement('li'); li.textContent = message; $('history').append(li) }
         function cancelPending() { gameNumber++; if (pending !== null) clearTimeout(pending); pending = null }
-        function render() { const black = board.filter(x => x === 1).length, white = board.filter(x => x === -1).length; $('black-score').textContent = `Black: ${black}`; $('white-score').textContent = `White: ${white}`; $('player-color').textContent = `You: ${human === 1 ? 'black' : 'white'}`; const allowed = new Set(!editing && !finished && turn === human ? legal(board, turn) : []); const frag = document.createDocumentFragment(); for (let p = 0; p < 64; p++) { const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'square' + (p === lastMove ? ' last' : ''); const value = board[p], r = Math.floor(p / 8) + 1, c = String.fromCharCode(65 + p % 8); btn.setAttribute('aria-label', `${c}${r}: ${value === 1 ? 'black disc' : value === -1 ? 'white disc' : 'empty'}${allowed.has(p) ? ', legal move' : ''}`); btn.disabled = !editing && !allowed.has(p); if (value) { const disc = document.createElement('span'); disc.className = 'disc ' + (value === 1 ? 'black' : 'white'); disc.setAttribute('aria-hidden', 'true'); btn.append(disc) } else if (allowed.has(p)) { const hint = document.createElement('span'); hint.className = 'hint'; hint.setAttribute('aria-hidden', 'true'); btn.append(hint) } btn.addEventListener('click', () => { if (editing) { board[p] = paint; lastMove = -1; render() } else move(p) }); frag.append(btn) } $('board').replaceChildren(frag); }
+        function render() { const black = board.filter(x => x === 1).length, white = board.filter(x => x === -1).length; $('black-score').textContent = `Black: ${black}`; $('white-score').textContent = `White: ${white}`; $('player-color').textContent = `You: ${human === 1 ? 'black' : 'white'}`; const allowed = new Set(!editing && !finished && turn === human ? legal(board, turn) : []); const frag = document.createDocumentFragment(); for (let p = 0; p < 64; p++) { const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'square' + (p === lastMove ? ' last' : ''); const value = board[p], r = Math.floor(p / 8) + 1, c = String.fromCharCode(65 + p % 8); btn.setAttribute('aria-label', `${c}${r}: ${value === 1 ? 'black disc' : value === -1 ? 'white disc' : 'empty'}${allowed.has(p) ? ', legal move' : ''}`); btn.disabled = !editing && !allowed.has(p); if (value) { const disc = document.createElement('span'); disc.className = 'disc ' + (value === 1 ? 'black' : 'white'); disc.setAttribute('aria-hidden', 'true'); btn.append(disc) } else if (allowed.has(p)) { const hint = document.createElement('span'); hint.className = 'hint'; hint.setAttribute('aria-hidden', 'true'); btn.append(hint) } btn.addEventListener('click', () => { if (editing) { board[p] = board[p] === 0 ? 1 : board[p] === 1 ? -1 : 0; lastMove = -1; render() } else move(p) }); frag.append(btn) } $('board').replaceChildren(frag); }
         function endOrContinue() { const moves = legal(board, turn); if (!moves.length) { const other = legal(board, -turn); if (!other.length) { finished = true; const own = board.filter(v => v === human).length, theirs = board.filter(v => v === -human).length; $('status').textContent = own === theirs ? `Draw! ${own}–${theirs}.` : own > theirs ? `You win! ${own}–${theirs}.` : `Computer wins! ${theirs}–${own}.`; render(); return } history(`${turn === human ? 'You' : 'Computer'} passed (no legal move).`); turn = -turn; } $('status').textContent = turn === human ? 'Your turn.' : 'Computer is choosing…'; render(); if (turn !== human) scheduleComputer(); }
         function move(pos) { if (editing || finished || turn !== human || !legal(board, turn).includes(pos)) return; doMove(pos) }
         function doMove(pos) { const who = turn === human ? 'You' : 'Computer'; const count = flips(board, pos, turn).length; board = applied(board, pos, turn); lastMove = pos; history(`${who} played ${labelPos(pos)}, flipping ${count} ${count === 1 ? 'disc' : 'discs'}.`); turn = -turn; endOrContinue(); }
         function scheduleComputer() { const current = gameNumber; pending = setTimeout(() => { pending = null; if (current !== gameNumber || finished || editing || turn === human) return; const pos = computerChoice(); if (pos !== null) doMove(pos) }, 550) }
         function startGame(custom = false) { cancelPending(); human = $('starter').value === 'human' ? 1 : -1; activeLevel = $('level').value; if (!custom) board = fresh(); turn = 1; lastMove = -1; finished = false; editing = false; $('editor-panel').classList.add('hidden'); $('standard').classList.add('hidden'); $('show-setup').classList.remove('hidden'); $('history').replaceChildren(); $('board-note').textContent = 'Highlighted squares are legal moves. The most recent move has a gold border.'; endOrContinue(); }
         $('restart').addEventListener('click', () => startGame());
-        $('show-setup').addEventListener('click', () => { cancelPending(); editing = true; finished = false; paint = Number($('paint').value); $('editor-panel').classList.remove('hidden'); $('standard').classList.remove('hidden'); $('show-setup').classList.add('hidden'); $('status').textContent = 'Editing position.'; $('board-note').textContent = 'Click squares to place or remove discs.'; $('editor-message').textContent = ''; render() });
-        $('paint').addEventListener('change', () => paint = Number($('paint').value));
+        $('show-setup').addEventListener('click', () => { cancelPending(); editing = true; finished = false; $('editor-panel').classList.remove('hidden'); $('standard').classList.remove('hidden'); $('show-setup').classList.add('hidden'); $('status').textContent = 'Editing position.'; $('board-note').textContent = 'Click a square to cycle: empty → black → white → empty.'; $('editor-message').textContent = ''; render() });
         $('play-position').addEventListener('click', () => { if (board.every(x => x === 0)) { $('editor-message').textContent = 'Place at least one disc before starting.'; return } cancelPending(); editing = false; finished = false; lastMove = -1; activeLevel = $('level').value; turn = $('next-turn').value === 'human' ? human : -human; $('history').replaceChildren(); $('editor-panel').classList.add('hidden'); $('show-setup').classList.remove('hidden'); $('board-note').textContent = 'Custom position. Highlighted squares are legal moves.'; endOrContinue() });
         $('cancel-editor').addEventListener('click', () => startGame()); $('standard').addEventListener('click', () => startGame());
         startGame();
