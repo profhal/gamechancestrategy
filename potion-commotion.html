@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Potion Commotion | Games, Chance, and Strategy</title>
+<link rel="icon" type="image/png" href="favicon.ico">
+<style>
+:root{color-scheme:light;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f1e9;color:#202b35}*{box-sizing:border-box}body{margin:0;padding:1.25rem}main{max-width:800px;margin:0 auto}h1{margin:0 0 .3rem;font-size:clamp(1.8rem,4vw,2.6rem)}h2{margin-top:0}.subtitle{margin:0 0 1.25rem;color:#50606b}.panel{background:white;border:1px solid #d9deda;border-radius:14px;padding:1.15rem;margin:1rem 0}.settings{display:flex;flex-wrap:wrap;align-items:end;gap:1rem}label{display:block;font-weight:650;margin-bottom:.35rem}select,input,button{font:inherit}select,input{padding:.65rem;border:1px solid #8d9da4;border-radius:8px;background:white}input[type=number]{width:7rem}button{padding:.75rem 1.05rem;border-radius:9px;border:1px solid #254c64;background:#245773;color:white;font-weight:650;cursor:pointer}button:hover:not(:disabled){background:#173f55}button:focus-visible,select:focus-visible,input:focus-visible,.station:focus-visible{outline:3px solid #d59b27;outline-offset:3px}button:disabled{opacity:.48;cursor:not-allowed}.status{font-size:1.2rem;font-weight:700;margin:.2rem 0 .5rem}.note{color:#53616b;font-size:.94rem}.eyebrow{font-size:1rem;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:#2468a6}nav{margin-top:12px;margin-bottom:1rem}nav a{color:inherit;font-size:.9rem;text-decoration:none}nav a:hover,nav a:focus-visible{text-decoration:underline}footer{max-width:800px;margin:2.25rem auto 1rem;color:#53616b;font-size:.9rem}.scorebar{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:#eef2ef;padding:.85rem;border-radius:10px;margin:.8rem 0}.scorebar strong{font-size:1.15rem}.lab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;background:#eef2ef;border-radius:10px;padding:.8rem}.station{min-height:206px;border:2px solid #bdc9ca;border-radius:11px;background:white;color:#202b35;padding:.7rem .35rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.28rem;text-align:center;cursor:pointer}.station:hover:not(:disabled){background:#f0f6f9}.station.selected{border-color:#245773;box-shadow:0 0 0 2px #245773}.station.human{border-color:#287b72;background:#eaf7f3}.station.computer{border-color:#a65b3f;background:#fff1e9}.station.contaminated{background:#f6eaf8;border-color:#8e489d}.station.decaying{border-style:dashed}.station.empty{background:#fff}.station:disabled{opacity:1;cursor:default}.station .flask{font-size:1.8rem;line-height:1.2}.station .potency{font-size:1.25rem;font-weight:800}.potency-meter{height:66px;width:23px;border:2px solid #4c5666;border-radius:13px;background:#e7e8ee;display:block;position:relative;overflow:hidden;flex-shrink:0}.potency-fill{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,#6143a5,#9b79db);border-radius:0 0 10px 10px;transition:height .3s ease}.station.decaying .potency-fill{background:linear-gradient(0deg,#a35a29,#df9b54)}.station.contaminated .potency-fill{background:linear-gradient(0deg,#75406f,#b35b9d)}.station .direction{font-size:.85rem;font-weight:700}.station .direction.up{color:#176c40}.station .direction.down{color:#a83e32}.station .direction.peak{color:#805b00}.station .warning{font-size:.8rem;font-weight:800;color:#78318c}.station .owner{font-size:.8rem;font-weight:700}.station .number{font-size:.78rem;color:#53616b}.actions{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1rem}.actions button{min-width:6.3rem}.history{margin:.5rem 0 0;padding-left:1.5rem;max-height:220px;overflow:auto}.history li{margin:.35rem 0}.event{margin:.7rem 0 0;padding:.65rem;background:#fff7df;border-left:4px solid #c48b1d;border-radius:5px;min-height:2.8rem}.help{margin-top:.6rem}.help summary{cursor:pointer;font-weight:650}.help table{border-collapse:collapse;width:100%;font-size:.9rem;margin-top:.6rem}.help th,.help td{text-align:left;border-bottom:1px solid #d9deda;padding:.5rem .25rem}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:500px){body{padding:.75rem}.panel{padding:.85rem}.lab{gap:.4rem;padding:.45rem}.station{min-height:190px;padding:.4rem .15rem}.station .potency{font-size:1.4rem}.station .flask{font-size:1.45rem}.station .direction{font-size:.74rem}}
+
+/* Twilight cauldron room: subdued surfaces with readable text and focus states. */
+.lab{background:#262b36;border:1px solid #43465a;gap:.7rem}
+.station{background:#343344;color:#f4eef5;border-color:#6d657c;transition:background .15s,border-color .15s}
+.station:hover:not(:disabled){background:#454256}
+.station.human{background:#203e3b;border-color:#65a99b;color:#f1fbf7}
+.station.human:hover:not(:disabled){background:#2c514b}
+.station.computer{background:#50332f;border-color:#c58a71;color:#fff5ee}
+.station.computer:hover:not(:disabled){background:#604039}
+.station.contaminated{background:#493052;border-color:#ba82c5;color:#fff0ff}
+.station.contaminated:hover:not(:disabled){background:#583b62}
+.station.empty{background:#333443;border-color:#77748b;color:#e9e5f2}
+.station.empty:hover:not(:disabled){background:#45475a}
+.station.selected{border-color:#e9c66c;box-shadow:0 0 0 2px #e9c66c}
+.station .number,.station .owner{color:inherit}
+.station .number{opacity:.82}
+.station .direction.up{color:#a8e6bb}
+.station .direction.down{color:#ffb6a8}
+.station .direction.peak{color:#ffe3a0}
+.station .warning{color:#f4b9ff}
+/* A glass bottle with a narrow neck and rounded body; liquid rises within the body. */
+.potion-bottle{position:relative;display:block;width:54px;height:82px;flex-shrink:0;margin:2px auto 0;filter:drop-shadow(0 3px 3px #0005)}
+.bottle-neck{position:absolute;top:4px;left:19px;width:16px;height:21px;border:3px solid #d8e5e9;border-bottom:0;border-radius:4px 4px 0 0;background:#bcd3dc20}
+.bottle-neck::before{content:'';position:absolute;top:-7px;left:-5px;width:20px;height:7px;background:#b18c64;border:2px solid #e5c49a;border-radius:3px}
+.bottle-body{position:absolute;left:3px;right:3px;top:22px;bottom:2px;border:3px solid #d8e5e9;border-radius:18px 18px 20px 20px;background:#a6cad522;overflow:hidden;box-shadow:inset 4px 0 6px #ffffff24,inset -4px 0 5px #0003}
+.bottle-body::after{content:'';position:absolute;top:8px;left:6px;width:5px;height:30px;border-radius:50%;background:#ffffff70;z-index:2}
+.potion-fill{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(0deg,#483077,#9273c9);transition:height .3s ease}
+.station.decaying .potion-fill{background:linear-gradient(0deg,#81411f,#d38d4e)}
+.station.contaminated .potion-fill{background:linear-gradient(0deg,#70326c,#c065b0)}
+@media(max-width:500px){.potion-bottle{transform:scale(.9);margin:-2px auto -4px}.station{min-height:206px}}
+@media(prefers-reduced-motion:reduce){.potion-fill,.station{transition:none}}
+</style>
+</head>
+<body><main>
+<header><div class="eyebrow">Games, Chance, and Strategy · Interactive Laboratory</div><nav aria-label="Game navigation"><a href="index.html">← Back to The Arcade</a></nav><h1>Potion Commotion</h1><p class="subtitle">Two apprentice wizards. Fourteen days. One Golden Cauldron.</p></header>
+<section class="panel" aria-labelledby="rules-heading"><h2 id="rules-heading">Rules</h2><p>Two apprentice wizards share <strong>two to six enchanted cauldrons</strong> before their final examination. Each day, both apprentices take one action. Potions change automatically at the <strong>end of each day</strong>. Bottle potions to collect their magical potency. <strong>The apprentice with the highest bottled total wins the Golden Cauldron!</strong></p><p class="note">Healthy growth: <strong>1 → 3 → 6 → 10 → 15</strong>. Hexed growth: <strong>+1 per day</strong>. After reaching 15, every potion decays: <strong>15 → 10 → 6 → 3 → 1 → 0</strong>. At zero, it evaporates. ↑ means growing, ★ means peak, ↓ means irreversible decay. The potion bottle shows potency from 0 to 15; its liquid color also distinguishes rising, falling, and hexed potions.</p><details class="help"><summary>Actions and contamination rules</summary><table><thead><tr><th>Action</th><th>When available</th></tr></thead><tbody><tr><td>Start</td><td>Any empty cauldron</td></tr><tr><td>Bottle</td><td>Your unhexed potion, growing or decaying</td></tr><tr><td>Hex</td><td>Opponent's unhexed potion, including decaying</td></tr><tr><td>Dispel</td><td>Your hexed potion</td></tr></tbody></table><p class="note">Hexed potions cannot be bottled. Dispelling uses your action; bottling must wait until another turn. A hex slows growth to +1 per day, but never stops decay. Decaying potions can be hexed. Dispelling removes the hex; it does not reverse decay.</p></details></section>
+<section class="panel" aria-labelledby="setup-heading"><h2 id="setup-heading">New game</h2><div class="settings"><div><label for="days">Final examination (days)</label><input id="days" type="number" min="5" max="60" value="14" inputmode="numeric"></div><div><label for="cauldrons">Cauldrons</label><input id="cauldrons" type="number" min="2" max="6" value="5" inputmode="numeric"></div><div><label for="starter">First apprentice</label><select id="starter"><option value="human">You</option><option value="computer">Computer</option></select></div><div><label for="level">Computer opponent</label><select id="level"><option value="naive">Naive</option><option value="opportunist">Opportunist</option></select></div><button id="restart" type="button">Start new game</button></div><p class="note">Settings take effect when you start a new game.</p></section>
+<section class="panel" aria-labelledby="play-heading"><h2 id="play-heading">The cauldron room</h2><p class="status" id="status" role="status" aria-live="polite"></p><div class="scorebar"><span><strong id="day">Day 1 of 14</strong></span><span>You: <strong id="human-score">0</strong></span><span>Computer: <strong id="computer-score">0</strong></span></div><div id="lab" class="lab" role="group" aria-label="Shared cauldrons"></div><p class="note" id="selection-help">Select a cauldron to see your available actions.</p><div class="actions" id="actions" aria-label="Actions for selected cauldron"></div><p id="event" class="event" role="status" aria-live="polite">The Alchemy Lab is open.</p></section>
+<section class="panel" aria-labelledby="history-heading"><h2 id="history-heading">Move history</h2><ol class="history" id="history" aria-live="polite"></ol><p class="note">Watch your rival apprentice’s choices. Can you find a better strategy?</p></section>
+</main><footer><p>&copy; 2026 Hal Smith · Games, Chance, and Strategy</p></footer>
+<script>
+'use strict';
+const growth=[1,3,6,10,15];
+const decay=[15,10,6,3,1,0];
+const $=id=>document.getElementById(id);
+let stations,day,limit,turn,first,finished,selected,scores,actionsThisDay,gameId=0,timer=null,level;
+const other=p=>p==='human'?'computer':'human';
+const who=p=>p==='human'?'You':'Computer';
+const state=p=>!p?'empty':p.decaying?'decaying':p.potency===15?'peak':'growing';
+const value=p=>p.potency;
+function validActions(player,i){const p=stations[i];if(!p)return ['start'];if(p.owner===player)return p.contaminated?['neutralize']:['bottle'];return !p.contaminated?['contaminate']:[];}
+function historyLine(s){const li=document.createElement('li');li.textContent=s;$('history').append(li);$('history').scrollTop=$('history').scrollHeight;}
+function showEvent(s){$('event').textContent=s;}
+function render(){
+ $('day').textContent=`Day ${Math.min(day,limit)} of ${limit}`;$('human-score').textContent=scores.human;$('computer-score').textContent=scores.computer;
+ $('status').textContent=finished?(scores.human===scores.computer?'Final examination complete — a tie!':scores.human>scores.computer?'Final examination complete — you win the Golden Cauldron!':'Final examination complete — computer wins the Golden Cauldron!'):turn==='human'?'Your turn. Choose a cauldron.':'Computer is choosing…';
+ const lab=$('lab');lab.replaceChildren();for(let i=0;i<stations.length;i++){const p=stations[i],b=document.createElement('button');b.type='button';b.className='station '+(!p?'empty':p.owner+(p.contaminated?' contaminated':'')+(p.decaying?' decaying':''))+(selected===i?' selected':'');b.disabled=finished||turn!=='human';b.setAttribute('aria-pressed',String(selected===i));let label=`Cauldron ${i+1}, `;
+ const add=(tag,cls,text)=>{const e=document.createElement(tag);e.className=cls;e.textContent=text;b.append(e);};add('span','number',`CAULDRON ${i+1}`);
+ if(!p){add('span','flask','＋');add('span','owner','Available');label+='empty';}
+ else{add('span','flask',p.contaminated?'🔮':'🧪');add('span','owner',p.owner==='human'?'Your potion':'Computer potion');add('span','potency',String(value(p))+' / 15');const bottle=document.createElement('span');bottle.className='potion-bottle';bottle.setAttribute('role','img');bottle.setAttribute('aria-label',`Potion bottle: ${value(p)} of 15 potency`);const neck=document.createElement('span');neck.className='bottle-neck';const body=document.createElement('span');body.className='bottle-body';const fill=document.createElement('span');fill.className='potion-fill';fill.style.height=`${value(p)/15*100}%`;body.append(fill);bottle.append(neck,body);b.append(bottle);const phase=state(p);add('span','direction '+(phase==='growing'?'up':phase==='decaying'?'down':'peak'),phase==='growing'?'↑ Growing':phase==='peak'?'★ Peak':'↓ Decaying');if(p.contaminated)add('span','warning','✦ HEXED');label+=`${p.owner==='human'?'your':'computer'} potion, potency ${value(p)}, ${phase}${p.contaminated?', hexed':''}`;}
+ b.setAttribute('aria-label',label);b.addEventListener('click',()=>{selected=i;render();});lab.append(b);}
+ const a=$('actions');a.replaceChildren();if(finished){$('selection-help').textContent='The magical examination is complete.';return;}if(turn!=='human'){$('selection-help').textContent='Watch the computer choose its action.';return;}
+ if(!stations.some((_,i)=>validActions('human',i).length)){ $('selection-help').textContent='No legal actions available.';const pass=document.createElement('button');pass.type='button';pass.textContent='Pass turn';pass.addEventListener('click',()=>passHuman());a.append(pass);return;}
+ if(selected===null){$('selection-help').textContent='Select a cauldron to see your available actions.';return;}
+ const options=validActions('human',selected);$('selection-help').textContent=`Station ${selected+1}: ${options.length? 'choose an action.':'no legal action available.'}`;
+ for(const action of options){const b=document.createElement('button');b.type='button';b.textContent=action==='contaminate'?'Cast hex':action==='neutralize'?'Dispel hex':action[0].toUpperCase()+action.slice(1);b.addEventListener('click',()=>move('human',selected,action));a.append(b);}
+ const clear=document.createElement('button');clear.type='button';clear.textContent='Cancel selection';clear.addEventListener('click',()=>{selected=null;render();});a.append(clear);
+}
+function passHuman(){if(finished||turn!=='human'||stations.some((_,i)=>validActions('human',i).length))return;historyLine(`Day ${day}: You passed (no legal actions).`);showEvent('You passed: no legal actions.');selected=null;actionsThisDay++;if(actionsThisDay===2){advanceDay();turn=first;}else turn='computer';render();if(!finished&&turn==='computer')scheduleComputer();}
+function move(player,i,action){if(finished||turn!==player||!validActions(player,i).includes(action))return;let p=stations[i],message='';
+ if(action==='start'){stations[i]={owner:player,potency:1,decaying:false,contaminated:false};message=`${who(player)} started a potion at cauldron ${i+1} (potency 1).`;}
+ if(action==='bottle'){scores[player]+=value(p);message=`${who(player)} bottled cauldron ${i+1} for ${value(p)} points.`;stations[i]=null;}
+ if(action==='contaminate'){p.contaminated=true;message=`${who(player)} hexed cauldron ${i+1} (potency ${value(p)}).`;}
+ if(action==='neutralize'){p.contaminated=false;message=`${who(player)} dispelled hex on cauldron ${i+1}; it can be bottled on a later turn.`;}
+ historyLine(`Day ${day}: ${message}`);showEvent(message);selected=null;actionsThisDay++;
+ if(actionsThisDay===2){advanceDay();if(!finished){turn=first;render();if(turn==='computer')scheduleComputer();}else render();}
+ else{turn=other(player);render();if(turn==='computer')scheduleComputer();}
+}
+function advanceDay(){
+ const changes=[];
+ for(let i=0;i<stations.length;i++){
+  const p=stations[i];if(!p)continue;
+  const old=p.potency;
+  if(p.decaying){
+   const index=decay.indexOf(p.potency);
+   p.potency=decay[index+1];
+  }else if(p.potency===15){
+   p.decaying=true;
+   p.potency=10;
+  }else if(p.contaminated){
+   p.potency=Math.min(15,p.potency+1);
+  }else{
+   // After neutralization, resume growth toward the next milestone.
+   p.potency=growth.find(v=>v>p.potency)??15;
+  }
+  if(p.potency===0){stations[i]=null;changes.push(`Cauldron ${i+1} evaporated (${old} → 0)`);}
+  else changes.push(`Cauldron ${i+1}: ${old} → ${p.potency}${p.contaminated?' (hexed)':''}${p.decaying?' ↓':p.potency===15?' ★':' ↑'}`);
+ }
+ const summary=changes.length?changes.join('; '):'No active potions.';
+ historyLine(`End of Day ${day}: ${summary}`);showEvent(`End of Day ${day}: ${summary}`);
+ actionsThisDay=0;
+ if(day>=limit){finished=true;historyLine(`Final examination: You ${scores.human}, Computer ${scores.computer}. Unbottled potions do not count.`);}
+ else day++;
+}
+function computerChoice(){const moves=[];for(let i=0;i<stations.length;i++)for(const action of validActions('computer',i))moves.push({i,action});if(!moves.length)return null;if(level==='naive')return moves[Math.floor(Math.random()*moves.length)];
+ // Opportunist: bottle at peak or during decay; hex threatening rival batches.
+ const score=m=>{
+  const p=stations[m.i];
+  if(m.action==='bottle')return p.potency===15?100:p.decaying?70+p.potency:p.potency===10?65:10+p.potency;
+  if(m.action==='contaminate')return p.potency===15?84:p.decaying?55+p.potency:p.potency>=10?48:8;
+  if(m.action==='neutralize')return p.decaying?50+p.potency:p.potency>=10?58:25;
+  if(m.action==='start')return day<=limit-4?35:2;
+  return 0;
+ };
+ const best=Math.max(...moves.map(score));const top=moves.filter(m=>score(m)===best);return top[Math.floor(Math.random()*top.length)];}
+function scheduleComputer(){const id=gameId;timer=setTimeout(()=>{timer=null;if(id!==gameId||finished||turn!=='computer')return;const m=computerChoice();if(m)move('computer',m.i,m.action);else{ // No legal move: pass, still consumes a daily action.
+ historyLine(`Day ${day}: Computer passed (no legal actions).`);showEvent('Computer passed: no legal actions.');actionsThisDay++;if(actionsThisDay===2){advanceDay();turn=first;}else turn='human';render();if(!finished&&turn==='computer')scheduleComputer();}
+ },650);}
+function newGame(){const n=Number($('days').value);if(!Number.isInteger(n)||n<5||n>60){$('status').textContent='Enter a deadline from 5 to 60 days.';$('days').focus();return;}const count=Number($('cauldrons').value);if(!Number.isInteger(count)||count<2||count>6){$('status').textContent='Choose 2 to 6 cauldrons.';$('cauldrons').focus();return;}gameId++;if(timer!==null)clearTimeout(timer);timer=null;stations=Array(count).fill(null);day=1;limit=n;first=$('starter').value;turn=first;finished=false;selected=null;scores={human:0,computer:0};actionsThisDay=0;level=$('level').value;$('lab').setAttribute('aria-label',`${count} shared cauldrons`);$('history').replaceChildren();showEvent('The Alchemy Lab is open.');render();if(turn==='computer')scheduleComputer();}
+$('restart').addEventListener('click',newGame);newGame();
+</script></body></html>
