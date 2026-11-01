@@ -1,0 +1,121 @@
+/* tictactoe: page-specific layout, colors, and game visuals.
+ * Loaded after arcade.css so these rules may override shared defaults.
+ */
+
+:root {
+    color-scheme: light;
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background: #f5f4ef;
+    color: #202b35;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+main {
+    max-width: 800px;
+    margin: auto;
+}
+
+h1 {
+    margin: 0 0 .3rem;
+    font-size: clamp(1.8rem,4vw,2.6rem);
+}
+
+.settings,.actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: .8rem;
+}
+
+select,button {
+    font: inherit;
+}
+
+select {
+    padding: .65rem;
+    border: 1px solid #8d9da4;
+    border-radius: 8px;
+    background: white;
+}
+
+button:not(.square):hover:not(:disabled) {
+    background: #173f55;
+}
+
+button:focus-visible,select:focus-visible,.square:focus-visible {
+    outline: 3px solid #d59b27;
+    outline-offset: 3px;
+}
+
+nav {
+    margin: 12px 0 1rem;
+}
+
+nav a:hover,nav a:focus-visible {
+    text-decoration: underline;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 8px;
+    max-width: 350px;
+    margin: 1.1rem auto;
+    background: #d6e1e4;
+    padding: 8px;
+    border-radius: 12px;
+}
+
+.square {
+    aspect-ratio: 1;
+    border: 2px solid #7995a3;
+    border-radius: 8px;
+    background: #fff;
+    color: #203f55;
+    font-size: clamp(2.6rem,10vw,4.5rem);
+    font-weight: 750;
+    display: grid;
+    place-items: center;
+    padding: 0;
+}
+
+.square.o {
+    color: #a3472c;
+}
+
+.square.winning {
+    background: #fff0b8;
+    border-color: #b88717;
+}
+
+.square:disabled {
+    opacity: 1;
+    cursor: default;
+}
+
+.square.editable {
+    cursor: pointer;
+}
+
+.square.playable {
+    cursor: pointer;
+    background: #eef8f2;
+}
+
+.history {
+    margin: .5rem 0 0;
+    padding-left: 1.5rem;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.actions {
+    margin: .6rem 0;
+}

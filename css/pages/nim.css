@@ -1,0 +1,119 @@
+/* nim: page-specific layout, colors, and game visuals.
+ * Loaded after arcade.css so these rules may override shared defaults.
+ */
+
+:root {
+    color-scheme: light;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f5f4ef;
+    color: #202b35;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin: 0 0 .3rem;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+select, input, button {
+    font: inherit;
+}
+
+select, input {
+    padding: .65rem;
+    border: 1px solid #8d9da4;
+    border-radius: 8px;
+    background: white;
+}
+
+input[type="number"] {
+    width: 7rem;
+}
+
+button:focus-visible, select:focus-visible, input:focus-visible {
+    outline: 3px solid #d59b27;
+    outline-offset: 3px;
+}
+
+.count {
+    color: #4a5a65;
+    margin: 0 0 1rem;
+}
+
+.sticks {
+    min-height: 125px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 1rem .5rem;
+    background: #eef2ef;
+    border-radius: 10px;
+}
+
+.stick {
+    width: 9px;
+    height: 76px;
+    border-radius: 5px;
+    background: linear-gradient(90deg,#a96830,#dfaa67 50%,#9e5e2c);
+    box-shadow: 1px 2px 2px #0002;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem;
+    margin-top: 1rem;
+}
+
+.actions button {
+    min-width: 6.3rem;
+}
+
+.history {
+    margin: .5rem 0 0;
+    padding-left: 1.5rem;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.eyebrow {
+    font-size: 1.0rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #2468a6;
+}
+
+nav a {
+    color: inherit;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+nav a:hover,
+nav a:focus-visible {
+    text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .stick {
+        animation: appear .15s ease-out;
+    }
+
+    @keyframes appear {
+        from {
+            opacity: .4;
+            transform: translateY(-5px);
+        }
+    }
+}

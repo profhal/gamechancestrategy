@@ -4,40 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Potion Commotion | Games, Chance, and Strategy</title>
 <link rel="icon" type="image/png" href="favicon.ico">
-<style>
-:root{color-scheme:light;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f1e9;color:#202b35}*{box-sizing:border-box}body{margin:0;padding:1.25rem}main{max-width:800px;margin:0 auto}h1{margin:0 0 .3rem;font-size:clamp(1.8rem,4vw,2.6rem)}h2{margin-top:0}.subtitle{margin:0 0 1.25rem;color:#50606b}.panel{background:white;border:1px solid #d9deda;border-radius:14px;padding:1.15rem;margin:1rem 0}.settings{display:flex;flex-wrap:wrap;align-items:end;gap:1rem}label{display:block;font-weight:650;margin-bottom:.35rem}select,input,button{font:inherit}select,input{padding:.65rem;border:1px solid #8d9da4;border-radius:8px;background:white}input[type=number]{width:7rem}button{padding:.75rem 1.05rem;border-radius:9px;border:1px solid #254c64;background:#245773;color:white;font-weight:650;cursor:pointer}button:hover:not(:disabled){background:#173f55}button:focus-visible,select:focus-visible,input:focus-visible,.station:focus-visible{outline:3px solid #d59b27;outline-offset:3px}button:disabled{opacity:.48;cursor:not-allowed}.status{font-size:1.2rem;font-weight:700;margin:.2rem 0 .5rem}.note{color:#53616b;font-size:.94rem}.eyebrow{font-size:1rem;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:#2468a6}nav{margin-top:12px;margin-bottom:1rem}nav a{color:inherit;font-size:.9rem;text-decoration:none}nav a:hover,nav a:focus-visible{text-decoration:underline}footer{max-width:800px;margin:2.25rem auto 1rem;color:#53616b;font-size:.9rem}.scorebar{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:#eef2ef;padding:.85rem;border-radius:10px;margin:.8rem 0}.scorebar strong{font-size:1.15rem}.lab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;background:#eef2ef;border-radius:10px;padding:.8rem}.station{min-height:206px;border:2px solid #bdc9ca;border-radius:11px;background:white;color:#202b35;padding:.7rem .35rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.28rem;text-align:center;cursor:pointer}.station:hover:not(:disabled){background:#f0f6f9}.station.selected{border-color:#245773;box-shadow:0 0 0 2px #245773}.station.human{border-color:#287b72;background:#eaf7f3}.station.computer{border-color:#a65b3f;background:#fff1e9}.station.contaminated{background:#f6eaf8;border-color:#8e489d}.station.decaying{border-style:dashed}.station.empty{background:#fff}.station:disabled{opacity:1;cursor:default}.station .flask{font-size:1.8rem;line-height:1.2}.station .potency{font-size:1.25rem;font-weight:800}.potency-meter{height:66px;width:23px;border:2px solid #4c5666;border-radius:13px;background:#e7e8ee;display:block;position:relative;overflow:hidden;flex-shrink:0}.potency-fill{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,#6143a5,#9b79db);border-radius:0 0 10px 10px;transition:height .3s ease}.station.decaying .potency-fill{background:linear-gradient(0deg,#a35a29,#df9b54)}.station.contaminated .potency-fill{background:linear-gradient(0deg,#75406f,#b35b9d)}.station .direction{font-size:.85rem;font-weight:700}.station .direction.up{color:#176c40}.station .direction.down{color:#a83e32}.station .direction.peak{color:#805b00}.station .warning{font-size:.8rem;font-weight:800;color:#78318c}.station .owner{font-size:.8rem;font-weight:700}.station .number{font-size:.78rem;color:#53616b}.actions{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1rem}.actions button{min-width:6.3rem}.history{margin:.5rem 0 0;padding-left:1.5rem;max-height:220px;overflow:auto}.history li{margin:.35rem 0}.event{margin:.7rem 0 0;padding:.65rem;background:#fff7df;border-left:4px solid #c48b1d;border-radius:5px;min-height:2.8rem}.help{margin-top:.6rem}.help summary{cursor:pointer;font-weight:650}.help table{border-collapse:collapse;width:100%;font-size:.9rem;margin-top:.6rem}.help th,.help td{text-align:left;border-bottom:1px solid #d9deda;padding:.5rem .25rem}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:500px){body{padding:.75rem}.panel{padding:.85rem}.lab{gap:.4rem;padding:.45rem}.station{min-height:190px;padding:.4rem .15rem}.station .potency{font-size:1.4rem}.station .flask{font-size:1.45rem}.station .direction{font-size:.74rem}}
-
-/* Twilight cauldron room: subdued surfaces with readable text and focus states. */
-.lab{background:#262b36;border:1px solid #43465a;gap:.7rem}
-.station{background:#343344;color:#f4eef5;border-color:#6d657c;transition:background .15s,border-color .15s}
-.station:hover:not(:disabled){background:#454256}
-.station.human{background:#203e3b;border-color:#65a99b;color:#f1fbf7}
-.station.human:hover:not(:disabled){background:#2c514b}
-.station.computer{background:#50332f;border-color:#c58a71;color:#fff5ee}
-.station.computer:hover:not(:disabled){background:#604039}
-.station.contaminated{background:#493052;border-color:#ba82c5;color:#fff0ff}
-.station.contaminated:hover:not(:disabled){background:#583b62}
-.station.empty{background:#333443;border-color:#77748b;color:#e9e5f2}
-.station.empty:hover:not(:disabled){background:#45475a}
-.station.selected{border-color:#e9c66c;box-shadow:0 0 0 2px #e9c66c}
-.station .number,.station .owner{color:inherit}
-.station .number{opacity:.82}
-.station .direction.up{color:#a8e6bb}
-.station .direction.down{color:#ffb6a8}
-.station .direction.peak{color:#ffe3a0}
-.station .warning{color:#f4b9ff}
-/* A glass bottle with a narrow neck and rounded body; liquid rises within the body. */
-.potion-bottle{position:relative;display:block;width:54px;height:82px;flex-shrink:0;margin:2px auto 0;filter:drop-shadow(0 3px 3px #0005)}
-.bottle-neck{position:absolute;top:4px;left:19px;width:16px;height:21px;border:3px solid #d8e5e9;border-bottom:0;border-radius:4px 4px 0 0;background:#bcd3dc20}
-.bottle-neck::before{content:'';position:absolute;top:-7px;left:-5px;width:20px;height:7px;background:#b18c64;border:2px solid #e5c49a;border-radius:3px}
-.bottle-body{position:absolute;left:3px;right:3px;top:22px;bottom:2px;border:3px solid #d8e5e9;border-radius:18px 18px 20px 20px;background:#a6cad522;overflow:hidden;box-shadow:inset 4px 0 6px #ffffff24,inset -4px 0 5px #0003}
-.bottle-body::after{content:'';position:absolute;top:8px;left:6px;width:5px;height:30px;border-radius:50%;background:#ffffff70;z-index:2}
-.potion-fill{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(0deg,#483077,#9273c9);transition:height .3s ease}
-.station.decaying .potion-fill{background:linear-gradient(0deg,#81411f,#d38d4e)}
-.station.contaminated .potion-fill{background:linear-gradient(0deg,#70326c,#c065b0)}
-@media(max-width:500px){.potion-bottle{transform:scale(.9);margin:-2px auto -4px}.station{min-height:206px}}
-@media(prefers-reduced-motion:reduce){.potion-fill,.station{transition:none}}
-</style>
+<link rel="stylesheet" href="css/arcade.css">
+  <link rel="stylesheet" href="css/pages/potion-commotion.css">
 </head>
 <body><main>
 <header><div class="eyebrow">Games, Chance, and Strategy · Interactive Laboratory</div><nav aria-label="Game navigation"><a href="index.html">← Back to The Arcade</a></nav><h1>Potion Commotion</h1><p class="subtitle">Two apprentice wizards. Fourteen days. One Golden Cauldron.</p></header>

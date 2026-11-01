@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New Game | Games, Chance, and Strategy</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="css/arcade.css">
+  <link rel="stylesheet" href="css/pages/template.css">
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Games, Chance, and Strategy · Interactive Laboratory</div>
+    <nav aria-label="Game navigation"><a href="index.html">← Back to The Arcade</a></nav>
+    <h1>New Game</h1>
+    <p class="subtitle">A short invitation to explore.</p>
+  </header>
+  <section class="panel" aria-labelledby="rules-heading">
+    <h2 id="rules-heading">Rules</h2>
+    <p>Explain the game here.</p>
+  </section>
+  <section class="panel" aria-labelledby="setup-heading">
+    <h2 id="setup-heading">New game</h2>
+    <div class="settings">
+      <div><label for="level">Computer opponent</label>
+        <select id="level"><option>Naive</option><option>Enthusiast</option><option>Strategist</option></select>
+      </div>
+      <button id="restart" type="button">Start new game</button>
+    </div>
+  </section>
+  <section class="panel" aria-labelledby="play-heading">
+    <h2 id="play-heading">Play</h2>
+    <p class="status" id="status" role="status" aria-live="polite">Ready to play.</p>
+    <div id="game-board" aria-label="Game board"><!-- Game-specific markup --></div>
+  </section>
+</main>
+<script>
+  'use strict';
+  // Game-specific state, mechanics, rendering, and agents go here.
+</script>
+</body>
+</html>

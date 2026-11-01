@@ -1,0 +1,148 @@
+/* index: page-specific layout, colors, and game visuals.
+ * Loaded after arcade.css so these rules may override shared defaults.
+ */
+
+:root {
+    color-scheme: light;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f5f4ef;
+    color: #202b35;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.eyebrow {
+    margin: 0 0 .75rem;
+    color: #24649b;
+    font-size: 1rem;
+    font-weight: 750;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    line-height: 1.5;
+}
+
+h1 {
+    margin: 0 0 .45rem;
+    font-size: clamp(2.1rem, 5vw, 3.25rem);
+    line-height: 1.12;
+}
+
+h2 {
+    margin: 0 0 .65rem;
+    font-size: 1.4rem;
+}
+
+h3 {
+    margin: 0 0 .45rem;
+    font-size: 1.25rem;
+}
+
+p {
+    line-height: 1.65;
+}
+
+.subtitle {
+    margin: 0;
+    color: #50606b;
+    font-size: 1.15rem;
+    max-width: 43rem;
+}
+
+header {
+    padding: 1.15rem 0 1.35rem;
+}
+
+.panel {
+    background: #fff;
+    border: 1px solid #d9deda;
+    border-radius: 14px;
+    padding: clamp(1.15rem, 3vw, 1.65rem);
+    margin: 1rem 0;
+}
+
+.intro p:last-child, .panel p:last-child {
+    margin-bottom: 0;
+}
+
+.section-heading {
+    margin: 2.2rem 0 .4rem;
+}
+
+.section-intro {
+    margin: 0 0 1.1rem;
+    color: #50606b;
+}
+
+.games {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr));
+    gap: 1rem;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.game p {
+    margin: .2rem 0 1.15rem;
+}
+
+.game .tags {
+    margin: 0 0 .8rem;
+    font-size: .85rem;
+    font-weight: 700;
+    color: #516773;
+    letter-spacing: .035em;
+}
+
+.game .play {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: auto;
+    padding: .72rem 1rem;
+    background: #245773;
+    color: white;
+    border: 1px solid #254c64;
+    border-radius: 9px;
+    text-decoration: none;
+    font-weight: 650;
+}
+
+.game .play:hover {
+    background: #173f55;
+}
+
+a:focus-visible {
+    outline: 3px solid #d59b27;
+    outline-offset: 4px;
+}
+
+.steps {
+    margin: .75rem 0 0;
+    padding-left: 1.4rem;
+}
+
+.steps li {
+    padding-left: .25rem;
+    margin: .55rem 0;
+    line-height: 1.55;
+}
+
+@media (max-width: 520px) {
+    body {
+        padding: 1rem;
+    }
+
+    .eyebrow {
+        letter-spacing: .08em;
+    }
+}

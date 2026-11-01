@@ -1,0 +1,114 @@
+/*
+ * THE ARCADE — SHARED PRESENTATION
+ * --------------------------------
+ * Edit this file to change common interface elements across the site.
+ * Each page also loads css/pages/<page>.css for its own visual details.
+ * CSS custom properties below are defaults; individual games may override them.
+ * No build step is required. All URLs are relative to the HTML files at the root.
+ */
+
+:root {
+    --arcade-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --arcade-ink: #202b35;
+    --arcade-paper: #f5f4ef;
+    --arcade-accent: #245773;
+    --arcade-focus: #d59b27;
+    --arcade-panel-radius: 14px;
+}
+
+/* Global box sizing is shared by every page. */
+* {
+    box-sizing: border-box;
+}
+
+/* Shared rules extracted from three or more original pages. */
+
+body {
+    margin: 0;
+    padding: 1.25rem;
+}
+
+footer {
+    margin: 2.25rem 0 1rem;
+    color: #53616b;
+    font-size: .9rem;
+}
+
+nav {
+    margin-top: 12px;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    margin: 0 0 1.25rem;
+    color: #50606b;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #d9deda;
+    border-radius: 14px;
+    padding: 1.15rem;
+    margin: 1rem 0;
+}
+
+.settings {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 1rem;
+}
+
+label {
+    display: block;
+    font-weight: 650;
+    margin-bottom: .35rem;
+}
+
+button {
+    padding: .75rem 1.05rem;
+    border-radius: 9px;
+    border: 1px solid #254c64;
+    background: #245773;
+    color: white;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+    background: #173f55;
+}
+
+button:disabled {
+    opacity: .48;
+    cursor: not-allowed;
+}
+
+.status {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: .2rem 0 .5rem;
+}
+
+.history li {
+    margin: .35rem 0;
+}
+
+.note {
+    color: #53616b;
+    font-size: .94rem;
+}
+
+.eyebrow {
+    font-size: 1rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #2468a6;
+}
+
+nav a {
+    color: inherit;
+    font-size: .9rem;
+    text-decoration: none;
+}

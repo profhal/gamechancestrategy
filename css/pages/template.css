@@ -1,0 +1,23 @@
+/* Starter overrides for a new Arcade game.
+ * Put only game-specific visuals here; shared UI lives in ../arcade.css.
+ * Set page theme here if desired, e.g. :root { background: #f5f4ef; color: #202b35; }.
+ */
+
+:root {
+    color-scheme: light;
+    font-family: var(--arcade-font);
+    background: var(--arcade-paper);
+    color: var(--arcade-ink);
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+body {
+    margin: 0;
+    padding: 1.25rem;
+}
+
+/* Add your board, pieces, animations, and game-specific responsive rules. */
