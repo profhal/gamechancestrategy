@@ -1,0 +1,39 @@
+/* Fold or Fortune — page-specific Arcade presentation. */
+:root {
+    color-scheme: light;
+    font-family: var(--arcade-font);
+    background: #f5f4ef;
+    color: #202b35;
+}
+main { max-width: 850px; margin: 0 auto; }
+h1 { margin-bottom: .35rem; }
+h2 { margin-top: 0; }
+select { padding: .65rem; border: 1px solid #b9c5c9; border-radius: 8px; background: white; font: inherit; }
+.scoreboard { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: .5rem; text-align: center; align-items: center; background: #edf2f3; border-radius: 12px; padding: .8rem; margin-bottom: 1rem; }
+.scoreboard span, .scoreboard small { display: block; color: #53616b; font-size: .9rem; }
+.scoreboard strong { display: block; font-size: 2rem; font-variant-numeric: tabular-nums; }
+#round-label { font-weight: 750; }
+.card-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(.3rem, 1.4vw, .85rem); margin: 1.3rem 0; }
+.playing-card { position: relative; width: 100%; aspect-ratio: 5 / 7; border: 2px solid #d0d7d9; border-radius: 10px; background: #fffdf8; display: flex; flex-direction: column; justify-content: center; align-items: center; font-family: Georgia, serif; font-size: clamp(1.25rem, 4.3vw, 2.6rem); font-weight: 750; padding: .2rem; color: #202b35; }
+.playing-card.red { color: #a72f36; }
+.playing-card.back { background: repeating-linear-gradient(45deg, #214b64 0 8px, #2d617e 8px 16px); color: #f6e8c8; border: 4px solid #fff; outline: 1px solid #31566c; }
+.playing-card.back::after { content: '✦'; border: 2px solid #d8c9a6; border-radius: 6px; display: grid; place-items: center; width: 77%; height: 82%; background: #214b64; }
+.playing-card:disabled { opacity: 1; cursor: default; }
+.playing-card.selectable { cursor: pointer; }
+.playing-card.selectable:hover, .playing-card.selectable:focus-visible { transform: translateY(-4px); outline: 3px solid #d59b27; outline-offset: 2px; }
+.playing-card .suit { font-size: .85em; }
+.playing-card .owner { position: absolute; bottom: .3rem; left: .1rem; right: .1rem; font-family: var(--arcade-font); font-size: clamp(.58rem, 1.6vw, .8rem); color: #405260; font-weight: 700; text-align: center; }
+.decision-area { text-align: center; padding: .8rem; background: #f4f0e6; border-radius: 10px; }
+.decision-buttons { display: flex; gap: 1rem; justify-content: center; }
+button.secondary { background: #fff; color: #245773; }
+button.secondary:hover:not(:disabled) { background: #e4edf1; }
+.reveal-area { padding: 1rem; background: #edf2f3; border-radius: 10px; text-align: center; margin-top: .9rem; }
+.reveal-area p { margin: .4rem 0; }
+.actions { margin-top: 1rem; text-align: right; }
+[hidden] { display: none !important; }
+@media (max-width: 500px) {
+    .scoreboard { grid-template-columns: 1fr 1.1fr 1fr; padding: .55rem; }
+    .playing-card { border-radius: 6px; }
+    .playing-card.back { border-width: 2px; }
+    .playing-card .owner { font-size: .58rem; }
+}

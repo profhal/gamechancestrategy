@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fold or Fortune | Games, Chance, and Strategy</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="css/arcade.css">
+  <link rel="stylesheet" href="css/pages/fold-or-fortune.css">
+  <script src="js/fold-or-fortune.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Games, Chance, and Strategy · Interactive Laboratory</div>
+    <nav aria-label="Game navigation"><a href="index.html">← Back to The Arcade</a></nav>
+    <h1>Fold or Fortune</h1>
+    <p class="subtitle">Five cards. Two choices. One showdown.</p>
+  </header>
+  <section class="panel" aria-labelledby="rules-heading">
+    <h2 id="rules-heading">Rules</h2>
+    <p>Five cards are dealt face down. You reveal one, then the computer reveals one. Both secretly choose <strong>FOLD</strong> or <strong>PLAY</strong>.</p>
+    <p>If both fold, nobody scores. If only one plays, that player earns <strong>1 point</strong>. If both play, each reveals a second card; the higher two-card total earns <strong>2 points</strong>. Ties earn nothing.</p>
+    <p class="note">Aces count as 1; Jacks, Queens, and Kings count as 10. Suits don't matter. Losing a showdown currently carries no penalty.</p>
+  </section>
+  <section class="panel" aria-labelledby="setup-heading">
+    <h2 id="setup-heading">New game</h2>
+    <div class="settings">
+      <div><label for="round-limit">Rounds</label><select id="round-limit"><option value="5" selected>5</option><option value="10">10</option><option value="20">20</option></select></div>
+      <div><label for="level">Computer opponent</label><select id="level"><option value="naive">Naive — Coin Flip</option><option value="cautious">Enthusiast — Cautious</option><option value="bold">Enthusiast — Bold</option></select></div>
+      <button id="restart" type="button">Start new game</button>
+    </div>
+  </section>
+  <section class="panel" aria-labelledby="play-heading">
+    <h2 id="play-heading">Play</h2>
+    <div class="scoreboard"><div><span>You</span><strong id="human-score">0</strong></div><div><span id="round-label">Round 1 of 10</span><small id="phase-label">Initial reveal</small></div><div><span>Computer</span><strong id="computer-score">0</strong></div></div>
+    <p class="status" id="status" role="status" aria-live="polite">Choose a face-down card.</p>
+    <div class="card-row" id="game-board" aria-label="Five shared cards"></div>
+    <div class="decision-area" id="decision-area" hidden>
+      <p>Make your choice. The computer's choice is hidden until you commit.</p>
+      <div class="decision-buttons"><button id="fold" type="button" class="secondary">FOLD</button><button id="play" type="button">PLAY</button></div>
+    </div>
+    <div id="reveal-area" class="reveal-area" hidden></div>
+    <div class="actions"><button id="next-round" type="button" hidden>Next round</button></div>
+  </section>
+  <section class="panel" aria-labelledby="history-heading">
+    <h2 id="history-heading">Round history</h2>
+    <ol class="history" id="history" aria-live="polite"></ol>
+  </section>
+  <footer>Fold or Fortune · The Arcade · A game design experiment</footer>
+</main>
+</body>
+</html>
