@@ -16,7 +16,7 @@ function newGame() {
     return {
         turn: 0,
         scores: [0, 0],
-        // True after a player HEXes; their next action cannot be HEX.
+        // Number of that player's subsequent non-HEX turns before HEX is available.
         hexCooldown: [0, 0],
         decayLosses: [0, 0],
         cauldrons: Array.from({length: 5}, (_, index) => ({
@@ -133,8 +133,8 @@ function play(game, move) {
             break;
     }
 
-    // HEX is prohibited on the player's next turn only. Any other
-    // legal action, including PASS, clears that player's cooldown.
+    // HEX is unavailable for the next two turns taken by that player.
+    // Each non-HEX action, including PASS, reduces the counter by one.
     game.hexCooldown[player] = move.action === 'HEX'
         ? HEX_COOLDOWN
         : Math.max(0, game.hexCooldown[player] - 1);
@@ -146,14 +146,18 @@ function play(game, move) {
         before
     });
 
-    // Brew once per day, after player 2 has acted.
+    // Atelier tallies impending decay for the acting player after their
+    // action, before the next brew. This occurs on both players' turns.
+    for (const pot of game.cauldrons) {
+        if (pot.owner === player && willExpireNextBrew(pot)) {
+            game.decayLosses[player]++;
+        }
+    }
+
+    // Brew exactly once per day, after player 2 has acted.
     if (player === 1) {
         for (const pot of game.cauldrons) {
             if (pot.state !== 'AVAILABLE') {
-                // Record the owner BEFORE brew() clears an expired cauldron.
-                if (willExpireNextBrew(pot)) {
-                    game.decayLosses[pot.owner]++;
-                }
                 brew(pot);
             }
         }
