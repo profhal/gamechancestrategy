@@ -7,6 +7,7 @@
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="css/arcade.css">
   <link rel="stylesheet" href="css/pages/fold-or-fortune.css">
+  <script src="js/fold-or-fortune-engine.js" defer></script>
   <script src="js/fold-or-fortune.js" defer></script>
 </head>
 <body>
@@ -26,8 +27,8 @@
   <section class="panel" aria-labelledby="setup-heading">
     <h2 id="setup-heading">New game</h2>
     <div class="settings">
-      <div><label for="round-limit">Rounds</label><select id="round-limit"><option value="5" selected>5</option><option value="10">10</option><option value="20">20</option></select></div>
-      <div><label for="level">Computer opponent</label><select id="level"><option value="naive">Naive — Coin Flip</option><option value="cautious">Enthusiast — Cautious</option><option value="bold">Enthusiast — Bold</option></select></div>
+      <div><label for="round-limit">Rounds</label><select id="round-limit"><option value="10" selected>10</option></select></div>
+      <div><label for="level">Computer opponent</label><select id="level"><option value="naive">Naive — Always Play</option><option value="cardAware">Enthusiast — Card Aware</option><option value="probAware">Enthusiast — Probability Aware (0.4)</option><option value="strategist">Strategist — Thoughtful</option></select></div>
       <button id="restart" type="button">Start new game</button>
     </div>
   </section>
